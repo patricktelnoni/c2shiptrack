@@ -1,25 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9ea789e0-ac36-42a9-b82c-e46c77eef580" name="Default Changelist" comment="" />
+    <list default="true" id="9ea789e0-ac36-42a9-b82c-e46c77eef580" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/router.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/serializer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/viewsets.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/c2shiptrack/routing.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/c2shiptrack/signals.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/c2shiptrack/unusedmodels.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/maps/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/maps/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/maps/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/maps/consumers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/maps/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/maps/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/maps/routing.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/maps/templates/maps/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/maps/templates/maps/room.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/maps/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/maps/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/maps/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/c2shiptrack/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/c2shiptrack/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/c2shiptrack/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/c2shiptrack/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/c2shiptrack/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/c2shiptrack/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/c2shiptrack/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/c2shiptrack/urls.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="ProjectId" id="1WZAiG6OhFht8xomAUrtw6Y2zab" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/c2shiptrack" />
+      <recent name="$PROJECT_DIR$/maps" />
     </key>
   </component>
   <component name="ServiceViewManager">
@@ -46,5 +99,31 @@
       <updated>1579346868698</updated>
     </task>
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="387" y="125" width="624" height="551" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1579489600946">
+      <screen x="42" y="27" width="1324" height="741" />
+    </state>
+    <state x="387" y="125" width="624" height="551" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/42.27.1324.741@42.27.1324.741" timestamp="1579489600946" />
+    <state x="475" y="141" width="447" height="520" key="FileChooserDialogImpl" timestamp="1579663478672">
+      <screen x="42" y="27" width="1324" height="741" />
+    </state>
+    <state x="475" y="141" width="447" height="520" key="FileChooserDialogImpl/42.27.1324.741@42.27.1324.741" timestamp="1579663478672" />
+    <state x="193" y="31" width="1022" height="737" key="SettingsEditor" timestamp="1579489595665">
+      <screen x="42" y="27" width="1324" height="741" />
+    </state>
+    <state x="193" y="31" width="1022" height="737" key="SettingsEditor/42.27.1324.741@42.27.1324.741" timestamp="1579489595665" />
+    <state x="360" y="225" key="com.intellij.ide.util.TipDialog" timestamp="1579663452382">
+      <screen x="42" y="27" width="1324" height="741" />
+    </state>
+    <state x="359" y="225" key="com.intellij.ide.util.TipDialog/42.27.1318.741@42.27.1318.741" timestamp="1579530791538" />
+    <state x="360" y="225" key="com.intellij.ide.util.TipDialog/42.27.1324.741@42.27.1324.741" timestamp="1579663452382" />
+    <state x="42" y="27" width="866" height="741" key="find.popup" timestamp="1579505517771">
+      <screen x="42" y="27" width="1324" height="741" />
+    </state>
+    <state x="42" y="27" width="866" height="741" key="find.popup/42.27.1324.741@42.27.1324.741" timestamp="1579505517771" />
   </component>
 </project>

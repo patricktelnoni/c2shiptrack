@@ -27,6 +27,16 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+ASGI_APPLICATION = "c2shiptrack.routing.application"
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+
 
 # Application definition
 
@@ -37,7 +47,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'c2shiptrack'
+    'c2shiptrack',
+    'api',
+    'rest_framework',
+    'channels',
+    'maps',
 ]
 
 MIDDLEWARE = [
@@ -74,17 +88,26 @@ WSGI_APPLICATION = 'c2shiptrack.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE'    : 'django.db.backends.postgresql_psycopg2',
+#          'NAME'      : 'shiptrack',
+#          'USER'      : 'postgres',
+#          'PASSWORD'  : '1234',
+#          'HOST'      : 'localhost',
+#          'PORT'      : '5432'
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE'    : 'django.db.backends.postgresql_psycopg2',
-         'NAME'      : 'shiptrack',
-         'USER'      : 'postgres',
-         'PASSWORD'  : '1234',
-         'HOST'      : 'localhost',
-         'PORT'      : '5432'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'TEST': {
+            'NAME': os.path.join(BASE_DIR, 'db_test.sqlite3')
+        }
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
