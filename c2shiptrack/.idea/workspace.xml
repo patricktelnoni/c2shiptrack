@@ -73,13 +73,21 @@
       <option name="project" value="LOCAL" />
       <updated>1579663506408</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Adding Signal">
+      <created>1579833818308</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1579833818308</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Adding websocket with rest api" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding websocket with rest api" />
+    <MESSAGE value="Adding Signal" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding Signal" />
   </component>
   <component name="WindowStateProjectService">
     <state x="387" y="125" width="624" height="551" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1579489600946">
@@ -99,9 +107,10 @@
       <screen x="42" y="27" width="1324" height="741" />
     </state>
     <state x="193" y="31" width="1022" height="737" key="SettingsEditor/42.27.1324.741@42.27.1324.741" timestamp="1579489595665" />
-    <state x="299" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1579663526391">
-      <screen x="42" y="27" width="1324" height="741" />
+    <state x="298" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1579833827033">
+      <screen x="42" y="27" width="1318" height="741" />
     </state>
+    <state x="298" y="133" key="Vcs.Push.Dialog.v2/42.27.1318.741@42.27.1318.741" timestamp="1579833827033" />
     <state x="299" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2/42.27.1324.741@42.27.1324.741" timestamp="1579663526391" />
     <state x="359" y="225" key="com.intellij.ide.util.TipDialog" timestamp="1579833786002">
       <screen x="42" y="27" width="1318" height="741" />
