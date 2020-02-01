@@ -1,0 +1,1 @@
+from c2shiptrack.celery import app as celery_app
