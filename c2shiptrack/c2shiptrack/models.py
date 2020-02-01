@@ -6,12 +6,10 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
-import channels.layers
-from asgiref.sync import async_to_sync
+
 
 class AreaAlerts(models.Model):
+    session = models.ForeignKey('Sessions', models.DO_NOTHING)
     object_type = models.CharField(max_length=255, blank=True, null=True)
     object_id = models.IntegerField(blank=True, null=True)
     warning_type = models.CharField(max_length=255, blank=True, null=True)
@@ -21,14 +19,10 @@ class AreaAlerts(models.Model):
     ship_name = models.CharField(max_length=100, blank=True, null=True)
     track_source_type = models.CharField(max_length=100, blank=True, null=True)
     is_visible = models.CharField(max_length=255, blank=True, null=True)
-    id = models.IntegerField(primary_key=True)
-    session = models.ForeignKey('Sessions', models.DO_NOTHING)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'area_alerts'
-
-
 
 
 class ReferencePoints(models.Model):
@@ -46,13 +40,13 @@ class ReferencePoints(models.Model):
     last_update_time = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'reference_points'
 
 
 class ReplayAisData(models.Model):
-    system_track_number = models.IntegerField()
     session = models.ForeignKey('Sessions', models.DO_NOTHING)
+    system_track_number = models.IntegerField()
     mmsi_number = models.IntegerField(blank=True, null=True)
     name = models.CharField(max_length=255, blank=True, null=True)
     radio_call_sign = models.CharField(max_length=255, blank=True, null=True)
@@ -68,7 +62,6 @@ class ReplayAisData(models.Model):
     created_time = models.DateTimeField(blank=True, null=True)
     eta_at_destination = models.DateTimeField(blank=True, null=True)
     vendor_id = models.CharField(max_length=200, blank=True, null=True)
-    id = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = True
@@ -89,10 +82,9 @@ class ReplayReferencePoint(models.Model):
     network_track_number = models.IntegerField(blank=True, null=True)
     link_status_type = models.CharField(max_length=100, blank=True, null=True)
     last_update_time = models.DateTimeField(blank=True, null=True)
-    id = models.IntegerField(primary_key=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'replay_reference_point'
 
 
@@ -118,10 +110,9 @@ class ReplaySystemTrackGeneral(models.Model):
     last_update_time = models.DateTimeField(blank=True, null=True)
     initiation_time = models.DateTimeField(blank=True, null=True)
     created_time = models.DateTimeField(blank=True, null=True)
-    id = models.IntegerField(primary_key=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'replay_system_track_general'
 
 
@@ -140,10 +131,9 @@ class ReplaySystemTrackIdentification(models.Model):
     surf_specific = models.CharField(max_length=255, blank=True, null=True)
     land_specific = models.CharField(max_length=255, blank=True, null=True)
     created_time = models.DateTimeField(blank=True, null=True)
-    id = models.IntegerField(primary_key=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'replay_system_track_identification'
 
 
@@ -161,10 +151,9 @@ class ReplaySystemTrackKinetic(models.Model):
     course_over_ground = models.FloatField(blank=True, null=True)
     last_update_time = models.DateTimeField(blank=True, null=True)
     created_time = models.DateTimeField(blank=True, null=True)
-    id = models.IntegerField(primary_key=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'replay_system_track_kinetic'
 
 
@@ -178,10 +167,9 @@ class ReplaySystemTrackLink(models.Model):
     network_track_quality = models.IntegerField(blank=True, null=True)
     link_status = models.CharField(max_length=255, blank=True, null=True)
     created_time = models.DateTimeField(blank=True, null=True)
-    id = models.IntegerField(primary_key=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'replay_system_track_link'
 
 
@@ -197,10 +185,9 @@ class ReplaySystemTrackMission(models.Model):
     start_time = models.DateTimeField(blank=True, null=True)
     end_time = models.DateTimeField(blank=True, null=True)
     created_time = models.DateTimeField(blank=True, null=True)
-    id = models.IntegerField(primary_key=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'replay_system_track_mission'
 
 
@@ -213,10 +200,9 @@ class ReplaySystemTrackProcessing(models.Model):
     track_phase_type = models.CharField(max_length=255, blank=True, null=True)
     track_suspect_level = models.CharField(max_length=255, blank=True, null=True)
     created_time = models.DateTimeField(blank=True, null=True)
-    id = models.IntegerField(primary_key=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'replay_system_track_processing'
 
 
@@ -228,10 +214,9 @@ class ReplayTrackGeneralSetting(models.Model):
     radar_coverage_visibility = models.CharField(max_length=255, blank=True, null=True)
     track_visibility = models.CharField(max_length=255, blank=True, null=True)
     created_time = models.DateTimeField(blank=True, null=True)
-    id = models.IntegerField(primary_key=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'replay_track_general_setting'
 
 
@@ -242,9 +227,8 @@ class Sessions(models.Model):
     end_time = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'sessions'
-
 
 
 class TacticalFigureList(models.Model):
@@ -269,12 +253,12 @@ class TacticalFigureList(models.Model):
     points = models.TextField(blank=True, null=True)  # This field type is a guess.
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'tactical_figure_list'
 
 
 class TacticalFigures(models.Model):
-    session = models.ForeignKey('Sessions', models.DO_NOTHING)
+    session = models.ForeignKey(Sessions, models.DO_NOTHING)
     object_type = models.CharField(max_length=255, blank=True, null=True)
     object_id = models.IntegerField(blank=True, null=True)
     tf_name = models.CharField(max_length=255, blank=True, null=True)
@@ -290,23 +274,7 @@ class TacticalFigures(models.Model):
     point_amplification_type = models.CharField(max_length=100, blank=True, null=True)
     point_keys = models.TextField(blank=True, null=True)  # This field type is a guess.
     points = models.TextField(blank=True, null=True)  # This field type is a guess.
-    id = models.IntegerField(primary_key=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'tactical_figures'
-
-@receiver(pre_save, sender=Sessions)
-def save_profile(sender, instance, **kwargs):
-    print("Session inserted")
-    channel_layer = channels.layers.get_channel_layer()
-    async_to_sync(channel_layer.group_send)(
-        'chat_queen',
-        {
-            "type": "chat_message",
-            "message": "Session inserted"
-        }
-    )
-    # async_to_sync(channel_layer.group_send)(
-    #     {"type": "chat_message", "message": "data"}
-    # )

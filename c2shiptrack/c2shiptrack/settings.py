@@ -42,10 +42,14 @@ CHANNEL_LAYERS = {
 
 INSTALLED_APPS = [
 
-    'django.contrib.contenttypes',
-
+    'django.contrib.admin',
+    'django.contrib.sites',
     'django.contrib.messages',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
     'django.contrib.staticfiles',
+    'django.contrib.admindocs',
     'c2shiptrack',
     'api',
     'rest_framework',
