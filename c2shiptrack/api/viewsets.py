@@ -89,11 +89,11 @@ class ReplaySystemTrackKineticViewSet(viewsets.ModelViewSet):
     # queryset = ReplaySystemTrackKinetic.objects.all()
     # serializer_class = ReplaySystemTrackKineticSerializer
     queryset = ReplaySystemTrackKinetic.objects.raw(
-        'SELECT session_id as id, track_name FROM replay_system_track_kinetic')
+        'SELECT session_id as id, * FROM replay_system_track_kinetic')
     serializer_class = ReplaySystemTrackKineticSerializer
 
     def list(self, request):
-        query = 'SELECT session_id as id, track_name FROM replay_system_track_kinetic'
+        query = 'SELECT session_id as id, * FROM replay_system_track_kinetic'
         serialized = []
         for p in ReplaySystemTrackKinetic.objects.raw(query):
             data = {'session_id': p.id, 'nama': p.track_name}
@@ -104,14 +104,14 @@ class ReplaySystemTrackLinkViewSet(viewsets.ModelViewSet):
     # queryset = ReplaySystemTrackLink.objects.all()
     # serializer_class = ReplaySystemTrackLinkSerializer
     queryset = ReplaySystemTrackLink.objects.raw(
-        'SELECT session_id as id, track_name FROM replay_system_track_link')
+        'SELECT session_id as id, * FROM replay_system_track_link')
     serializer_class = ReplaySystemTrackLinkSerializer
 
     def list(self, request):
-        query = 'SELECT session_id as id, track_name FROM replay_system_track_link'
+        query = 'SELECT session_id as id, * FROM replay_system_track_link'
         serialized = []
         for p in ReplaySystemTrackLink.objects.raw(query):
-            data = {'session_id': p.id, 'nama': p.track_name}
+            data = {'session_id': p.id, 'nama': p.system_track_number}
             serialized.append(data)
         return Response(serialized)
 
@@ -119,14 +119,14 @@ class ReplaySystemTrackMissionViewSet(viewsets.ModelViewSet):
     # queryset = ReplaySystemTrackMission.objects.all()
     # serializer_class = ReplaySystemTrackMissionSerializer
     queryset = ReplaySystemTrackMission.objects.raw(
-        'SELECT session_id as id, track_name FROM replay_system_track_mission')
+        'SELECT session_id as id, * FROM replay_system_track_mission')
     serializer_class = ReplaySystemTrackMissionSerializer
 
     def list(self, request):
-        query = 'SELECT session_id as id, track_name FROM replay_system_track_mission'
+        query = 'SELECT session_id as id, * FROM replay_system_track_mission'
         serialized = []
         for p in ReplaySystemTrackMission.objects.raw(query):
-            data = {'session_id': p.id, 'nama': p.track_name}
+            data = {'session_id': p.id, 'nama': p.system_track_number}
             serialized.append(data)
         return Response(serialized)
 
@@ -134,14 +134,14 @@ class ReplaySystemTrackProcessingViewSet(viewsets.ModelViewSet):
     # queryset = ReplaySystemTrackProcessing.objects.all()
     # serializer_class = ReplaySystemTrackProcessingSerializer
     queryset = ReplaySystemTrackProcessing.objects.raw(
-        'SELECT session_id as id, track_name FROM replay_system_track_general')
+        'SELECT session_id as id, * FROM replay_system_track_general')
     serializer_class = ReplaySystemTrackProcessingSerializer
 
     def list(self, request):
-        query = 'SELECT session_id as id, track_name FROM replay_system_track_general'
+        query = 'SELECT session_id as id, * FROM replay_system_track_general'
         serialized = []
         for p in ReplaySystemTrackProcessing.objects.raw(query):
-            data = {'session_id': p.id, 'nama': p.track_name}
+            data = {'session_id': p.id, 'nama': p.system_track_number}
             serialized.append(data)
         return Response(serialized)
 
@@ -149,14 +149,14 @@ class ReplayTrackGeneralSettingViewSet(viewsets.ModelViewSet):
     # queryset = ReplayTrackGeneralSetting.objects.all()
     # serializer_class = ReplayTrackGeneralSettingSerializer
     queryset = ReplayTrackGeneralSetting.objects.raw(
-        'SELECT session_id as id, track_name FROM replay_track_general_setting')
+        'SELECT session_id as id, * FROM replay_track_general_setting')
     serializer_class = ReplayTrackGeneralSettingSerializer
 
     def list(self, request):
-        query = 'SELECT session_id as id, track_name FROM replay_track_general_setting'
+        query = 'SELECT session_id as id, * FROM replay_track_general_setting'
         serialized = []
         for p in ReplayTrackGeneralSetting.objects.raw(query):
-            data = {'session_id': p.id, 'nama': p.track_name}
+            data = {'session_id': p.id, 'nama': p.system_track_number}
             serialized.append(data)
         return Response(serialized)
 

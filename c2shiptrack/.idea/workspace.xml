@@ -3,12 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9ea789e0-ac36-42a9-b82c-e46c77eef580" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/router.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/router.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/serializer.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/serializer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/viewsets.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/viewsets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/c2shiptrack/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/c2shiptrack/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/c2shiptrack/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/c2shiptrack/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +95,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580519729038</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Migrate every Viewset to Raw Query and disposing models.py. We Don't need it anymore.">
+      <created>1580568784752</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1580568784752</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -109,7 +111,8 @@
     <MESSAGE value="Adding Signal" />
     <MESSAGE value="Installing daphne, will configure later" />
     <MESSAGE value="Adding requirement for deployment" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding requirement for deployment" />
+    <MESSAGE value="Migrate every Viewset to Raw Query and disposing models.py. We Don't need it anymore." />
+    <option name="LAST_COMMIT_MESSAGE" value="Migrate every Viewset to Raw Query and disposing models.py. We Don't need it anymore." />
   </component>
   <component name="WindowStateProjectService">
     <state x="387" y="125" width="624" height="551" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1579489600946">
@@ -120,10 +123,10 @@
       <screen x="42" y="27" width="1318" height="741" />
     </state>
     <state x="434" y="146" width="524" height="509" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/42.27.1318.741@42.27.1318.741" timestamp="1580548356521" />
-    <state x="308" y="27" width="789" height="741" key="CommitChangelistDialog2" timestamp="1580519728731">
+    <state x="308" y="27" width="789" height="741" key="CommitChangelistDialog2" timestamp="1580568784407">
       <screen x="42" y="27" width="1318" height="741" />
     </state>
-    <state x="308" y="27" width="789" height="741" key="CommitChangelistDialog2/42.27.1318.741@42.27.1318.741" timestamp="1580519728731" />
+    <state x="308" y="27" width="789" height="741" key="CommitChangelistDialog2/42.27.1318.741@42.27.1318.741" timestamp="1580568784407" />
     <state x="309" y="27" width="779" height="741" key="CommitChangelistDialog2/42.27.1324.741@42.27.1324.741" timestamp="1579663505852" />
     <state x="475" y="141" width="447" height="520" key="FileChooserDialogImpl" timestamp="1579663478672">
       <screen x="42" y="27" width="1324" height="741" />
@@ -133,10 +136,10 @@
       <screen x="42" y="27" width="1324" height="741" />
     </state>
     <state x="193" y="31" width="1022" height="737" key="SettingsEditor/42.27.1324.741@42.27.1324.741" timestamp="1579489595665" />
-    <state x="298" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1580519736601">
+    <state x="298" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1580568792257">
       <screen x="42" y="27" width="1318" height="741" />
     </state>
-    <state x="298" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2/42.27.1318.741@42.27.1318.741" timestamp="1580519736601" />
+    <state x="298" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2/42.27.1318.741@42.27.1318.741" timestamp="1580568792257" />
     <state x="299" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2/42.27.1324.741@42.27.1324.741" timestamp="1579663526391" />
     <state x="359" y="225" key="com.intellij.ide.util.TipDialog" timestamp="1580340326343">
       <screen x="42" y="27" width="1318" height="741" />
