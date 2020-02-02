@@ -11,7 +11,14 @@ import os
 
 from django.core.asgi import get_asgi_application
 from channels.routing import get_default_application
+from channels.layers import get_channel_layer
+import django
+
+
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'c2shiptrack.settings')
+django.setup()
+application = get_default_application()
 
-application = get_asgi_application()
+# application = get_asgi_application()
+channel_layer = get_channel_layer()
