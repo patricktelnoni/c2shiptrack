@@ -1,7 +1,7 @@
 import psycopg2
 import json
 
-conn = psycopg2.connect("dbname=ccs_report user=postgres password=admin")
+conn = psycopg2.connect("dbname=shiptrack user=postgres host=localhost password=1234")
 cur = conn.cursor()
 # i = 0;
 ar_mandatory_table = ['replay_system_track_general', 'replay_system_track_kinetic', 'replay_system_track_processing',
