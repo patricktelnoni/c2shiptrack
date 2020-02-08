@@ -6,12 +6,75 @@ from c2shiptrack.unusedmodels import *
 from .serializer import *
 from django.conf import settings
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+import channels
 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
+
+class ReplaySystemTrackProcessingViewSet(viewsets.ModelViewSet):
+    # queryset = ReplaySystemTrackProcessing.objects.all()
+    # serializer_class = ReplaySystemTrackProcessingSerializer
+    queryset = ReplaySystemTrackProcessing.objects.raw(
+        'SELECT session_id as id, * FROM replay_system_track_general')
+    serializer_class = ReplaySystemTrackProcessingSerializer
+
+    def list(self, request):
+        query = 'SELECT session_id as id, * FROM replay_system_track_general'
+        if 'rstp' in cache:
+            # get results from cache
+            products = cache.get('rstp')
+            return Response(products, status=status.HTTP_201_CREATED)
+        else:
+            serialized = []
+            for p in ReplaySystemTrackProcessing.objects.raw(query):
+                data = {'session_id': p.id, 'nama': p.system_track_number}
+                serialized.append(data)
+            # store data in cache
+            cache.set('rstp', serialized, timeout=CACHE_TTL)
+            return Response(serialized, status=status.HTTP_201_CREATED)
+
+class TacticalFigureListViewSet(viewsets.ModelViewSet):
+    queryset = TacticalFigureList.objects.all().order_by('-object_id')
+    serializer_class = TacticalFigureListSerializer
+    def list(self, request, *args, **kwargs):
+        results = []
+        if 'tactical_figure_list' in cache:
+            temp            = cache.get('tactical_figure_list')
+            if cache.get('tfl_status') == 'UPDATE':
+                latest_updates  = TacticalFigureList.objects.order_by('-last_update_time').distinct('object_id')
+                if temp['last_update_time'] != latest_updates['last_update_time']:
+                    print('send with websocket')
+            results = temp
+        else:
+            tactical_figure_list = self.queryset
+            results = [tfl.to_json() for tfl in tactical_figure_list]
+            cache.set('tactical_figure_list', results, timeout=CACHE_TTL)
+            TFL_STATUS = 'CREATE' if 'tfl_status' not in cache else 'UPDATE'
+            cache.set('tfl_status', TFL_STATUS)
+        return Response(results, status=status.HTTP_200_OK)
+
 
 class GetRealtimeTrackViewSet(viewsets.ViewSet):
     # queryset = ReplaySystemTrackProcessing.objects.all()
     # serializer_class = ReplaySystemTrackProcessingSerializer
+    # channel_layer = channels.layers.get_channel_layer()
+    # # Send message to WebSocket
+    # async_to_sync(channel_layer.send)(text_data=json.dumps(
+    #     {"message": "dunia"}
+    # ))
+
+    # channel_layer = get_channel_layer()
+    # loop = asyncio.get_event_loop()
+    #
+    # coroutine = async_to_sync(channel_layer.group_send)(
+    #     'chat_queen',
+    #     {
+    #         'message': 'send_message',
+    #
+    #     }
+    # )
+    # loop.run_until_complete(coroutine)
     query = "SELECT st.* " \
             "FROM replay_system_track_general st " \
             "JOIN sessions s ON st.session_id=s.id JOIN (" \
@@ -22,14 +85,18 @@ class GetRealtimeTrackViewSet(viewsets.ViewSet):
             "ORDER BY st.system_track_number"
     queryset            = ReplaySystemTrackGeneral.objects.raw(query)
     serializer_class    = ReplaySystemTrackProcessingSerializer
-    ar_mandatory_table  = ['replay_system_track_general', 'replay_system_track_kinetic',
+    ar_mandatory_table  = ['replay_system_track_general',
+                           'replay_system_track_kinetic',
                           'replay_system_track_processing',
                           'replay_track_general_setting']
-    ar_mandatory_table_8 = ['replay_system_track_general', 'replay_system_track_kinetic',
+    ar_mandatory_table_8 = ['replay_system_track_general',
+                            'replay_system_track_kinetic',
                             'replay_system_track_processing',
-                            'replay_system_track_identification', 'replay_system_track_link',
+                            'replay_system_track_identification',
+                            'replay_system_track_link',
                             'replay_system_track_mission',
-                            'replay_track_general_setting', 'replay_ais_data']
+                            'replay_track_general_setting',
+                            'replay_ais_data']
     ar_dis_track_number_mandatory_table = [[], [], [], []]
     ar_dis_track_number_mandatory_table_pjg = [0, 0, 0, 0]
     last_system_track_number_kirim_datetime = ['0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00',
@@ -46,21 +113,35 @@ class GetRealtimeTrackViewSet(viewsets.ViewSet):
 
 
     def list(self, request):
-
+        channel_layer = channels.layers.get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            'chat_queen',
+            {
+                'type': 'chat_message',
+                'message': 'Ini dari viewset'
+            },
+        )
         query           = self.query
         mandatory_table = self.ar_mandatory_table
 
-        results = []
+
+
         for table in range(len(mandatory_table)):
-            # if table not in cache:
-            #     cache.set(table, 'kosongan', timeout=CACHE_TTL)
-            #     exist=0
-            #
-            # if ('replay_system_track_general' in cache and
-            #         'replay_system_track_kinetic' in cache and
-            #         'replay_system_track_processing' in cache and
-            #         'replay_track_general_setting' in cache):
-            #     exist=1
+            results = []
+            if table not in cache:
+                cache.set(table, 'kosongan', timeout=CACHE_TTL)
+                exist = 0
+
+            if ('replay_system_track_general' in cache and
+                    'replay_system_track_kinetic' in cache and
+                    'replay_system_track_processing' in cache and
+                    'replay_track_general_setting' in cache):
+                results = cache.get(table)
+                exist = 1
+                # return Response(results, status=status.HTTP_201_CREATED)
+
+
+
             if (table == 'replay_system_track_general'):
                 query = "SELECT s.id as id, st.* " \
                         "FROM " + self.ar_mandatory_table[table] + " st " \
@@ -133,52 +214,84 @@ class GetRealtimeTrackViewSet(viewsets.ViewSet):
                         # kirimkan data dengan created time terbaru
                         # dan simpan ke last_system_track_number_kirim
                         self.last_system_track_number_kirim_datetime[ix] = created_time
-
+                    print(session_id)
                     if (self.ar_mandatory_table_8[ix] == 'replay_system_track_general'):
-
-                        q = "SELECT s.id, system_track_number,created_time,identity,environment,source,track_name,iu_indicator  FROM ";
-                        q = q + self.ar_mandatory_table_8[ix] + " r join sessions s on s.id = r.session_id WHERE session_id = " + str(
-                            session_id) + " AND system_track_number = " + str(system_track_number);
+                        q = "SELECT s.id, source FROM replay_system_track_general r " \
+                            " JOIN sessions s on r.session_id=s.id " \
+                            "WHERE r.session_id = " + str(
+                                    session_id) + " AND r.system_track_number = " + str(system_track_number);
                         if self.last_system_track_number_kirim_datetime[ix] == '0000-00-00 00:00:00':
-                            q = q + " AND created_time = null";
+                            q = q + " AND r.created_time = null"
                         else:
-                            q = q + " AND created_time = '" + self.last_system_track_number_kirim_datetime[ix] + "'";
+                            q = q + " AND r.created_time = '" + self.last_system_track_number_kirim_datetime[
+                                ix] + "'"
 
-                        for row in Sessions.objects.raw(q):
-                            data = []
-                            data.append(row.system_track_number)
-                            data.append(row.created_time)
-                            data.append(row.identity)
-                            data.append(row.environment)
-                            data.append(row.source)
-                            data.append(row.track_name)
-                            data.append(row.iu_indicator)
+                        for data_source in ReplaySystemTrackGeneral.objects.raw(q):
+                            if data_source.source == 'AIS_TYPE':
+                                query = "SELECT s.id, r.system_track_number,r.created_time,identity,environment,source,track_name,iu_indicator" \
+                                        "FROM ";
+                                query = query + self.ar_mandatory_table_8[
+                                    ix] + " r join sessions s on s.id = r.session_id " \
+                                          "LEFT OUTER JOIN replay_ais_data b on r.system_track_number = b.system_track_number " \
+                                          "WHERE r.session_id = " + str(
+                                    session_id) + " AND r.system_track_number = " + str(system_track_number)
+                                if self.last_system_track_number_kirim_datetime[ix] == '0000-00-00 00:00:00':
+                                    query = query + " AND r.created_time = null"
+                                else:
+                                    query = query + " AND r.created_time = '" + self.last_system_track_number_kirim_datetime[
+                                        ix] + "'"
+                                print(query)
+                            else:
+                                query = "SELECT s.id, system_track_number,created_time,identity,environment,source,track_name,iu_indicator  FROM ";
+                                query = query + self.ar_mandatory_table_8[ix] + " r join sessions s on s.id = r.session_id WHERE session_id = " + str(
+                                    session_id) + " AND system_track_number = " + str(system_track_number);
+                                if self.last_system_track_number_kirim_datetime[ix] == '0000-00-00 00:00:00':
+                                    query = query + " AND created_time = null"
+                                else:
+                                    query = query + " AND created_time = '" + self.last_system_track_number_kirim_datetime[ix] + "'"
 
-                            # print(row)
+                            for row in Sessions.objects.raw(query):
+                                data = []
+                                data.append(row.system_track_number)
+                                data.append(row.created_time)
+                                data.append(row.identity)
+                                data.append(row.environment)
+                                data.append(row.source)
+                                data.append(row.track_name)
+                                data.append(row.iu_indicator)
+
+                                    # print(row)
                             results.append(dict(zip(columns, data)))
                         # hasil = json.dumps(results, indent=2, default=str)
                         # return Response(results, status=status.HTTP_201_CREATED)
 
                     if (self.ar_mandatory_table_8[ix] == 'replay_system_track_kinetic'):
-                        q = "SELECT session_id as id, latitude,longitude,speed_over_ground,course_over_ground FROM ";
-                        q = q + self.ar_mandatory_table_8[ix] + " WHERE session_id = " + str(
-                            session_id) + " AND system_track_number = " + str(system_track_number);
-                        q = q + " AND created_time = '" + self.last_system_track_number_kirim_datetime[ix] + "'";
+                        q = "SELECT a.session_id as id, latitude,longitude,speed_over_ground,course_over_ground, " \
+                            "b.name as ship_name, b.type_of_ship_or_cargo as type_of_ship, c.source  FROM ";
+                        q = q + self.ar_mandatory_table_8[ix] + " a LEFT OUTER JOIN replay_ais_data b ON a.system_track_number = b.system_track_number " \
+                                                                "LEFT OUTER JOIN replay_system_track_general c on a.system_track_number = c.system_track_number " \
+                                                                " WHERE a.session_id = " + str(
+                            session_id) + " AND a.system_track_number = " + str(system_track_number);
+                        q = q + " AND a.created_time = '" + self.last_system_track_number_kirim_datetime[ix] + "'";
 
                         for row in ReplaySystemTrackKinetic.objects.raw(q):
                             results[len(results) - 1]['latitude']           = row.latitude
                             results[len(results) - 1]['longitude']          = row.longitude
                             results[len(results) - 1]['speed_over_ground']  = row.speed_over_ground
                             results[len(results) - 1]['course_over_ground'] = row.course_over_ground
+                            results[len(results) - 1]['ship_name']          = row.ship_name
+                            results[len(results) - 1]['type_of_ship']       = row.type_of_ship
+                            results[len(results) - 1]['source']       = row.source
 
                         # hasil = json.dumps(results, indent=2, default=str)
                         return Response(results, status=status.HTTP_201_CREATED)
 
                     if (self.ar_mandatory_table_8[ix] == 'replay_system_track_processing'):
                         q = "SELECT track_join_status,track_fusion_status,track_phase_type as track_phase  FROM ";
-                        q = q + self.ar_mandatory_table_8[ix] + " WHERE session_id = " + str(
+                        q = q + self.ar_mandatory_table_8[ix] + " LEFT OUTER JOIN replay_system_track_general ON WHERE session_id = " + str(
                             session_id) + " AND system_track_number = " + str(system_track_number);
                         q = q + " AND created_time = '" + self.last_system_track_number_kirim_datetime[ix] + "'";
+                        print(q)
 
                         for row in ReplaySystemTrackProcessing.objects.raw(q):
                             results[len(results) - 1]['track_join_status'] = row.rack_join_status
@@ -186,7 +299,7 @@ class GetRealtimeTrackViewSet(viewsets.ViewSet):
                             results[len(results) - 1]['track_phase'] = row.track_phase
 
                         # hasil = json.dumps(results, indent=2, default=str)
-                        return Response(results, status=status.HTTP_201_CREATED)
+                        # return Response(results, status=status.HTTP_201_CREATED)
 
                     if (self.ar_mandatory_table_8[ix] == 'replay_ais_data'):
                         icek_ais = 0
@@ -219,7 +332,7 @@ class GetRealtimeTrackViewSet(viewsets.ViewSet):
                             results[len(results) - 1]['ship_name'] = '-'
                         print(q)
                         # hasil = json.dumps(results, indent=2, default=str)
-                        return Response(results, status=status.HTTP_201_CREATED)
+                        # return Response(results, status=status.HTTP_201_CREATED)
 
                     if (self.ar_mandatory_table_8[ix] == 'replay_track_general_setting'):
                         q = "SELECT track_visibility FROM ";
@@ -243,27 +356,7 @@ class GetRealtimeTrackViewSet(viewsets.ViewSet):
 
 
 
-class ReplaySystemTrackProcessingViewSet(viewsets.ModelViewSet):
-    # queryset = ReplaySystemTrackProcessing.objects.all()
-    # serializer_class = ReplaySystemTrackProcessingSerializer
-    queryset = ReplaySystemTrackProcessing.objects.raw(
-        'SELECT session_id as id, * FROM replay_system_track_general')
-    serializer_class = ReplaySystemTrackProcessingSerializer
 
-    def list(self, request):
-        query = 'SELECT session_id as id, * FROM replay_system_track_general'
-        if 'rstp' in cache:
-            # get results from cache
-            products = cache.get('rstp')
-            return Response(products, status=status.HTTP_201_CREATED)
-        else:
-            serialized = []
-            for p in ReplaySystemTrackProcessing.objects.raw(query):
-                data = {'session_id': p.id, 'nama': p.system_track_number}
-                serialized.append(data)
-            # store data in cache
-            cache.set('rstp', serialized, timeout=CACHE_TTL)
-            return Response(serialized, status=status.HTTP_201_CREATED)
 
 class ReplaySystemTrackKineticViewSet(viewsets.ViewSet):
     # queryset = ReplaySystemTrackKinetic.objects.all()
@@ -580,9 +673,7 @@ class SessionsViewSet(viewsets.ModelViewSet):
     queryset = Sessions.objects.all()
     serializer_class = SessionsSerializer
 
-class TacticalFigureListViewSet(viewsets.ModelViewSet):
-    queryset = TacticalFigureList.objects.all()
-    serializer_class = TacticalFigureListSerializer
+
 
 class TacticalFiguresViewSet(viewsets.ModelViewSet):
     queryset = TacticalFigures.objects.all()

@@ -10,7 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
-import os
+import os, datetime
+from celery.schedules import crontab
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,9 +24,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ri6-2ug$_i5^prt1oqjo9!cnsr%wq+akso19m!fdkk*ld=j76r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 ASGI_APPLICATION = "c2shiptrack.routing.application"
 CHANNEL_LAYERS = {
@@ -66,6 +67,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'channels',
     'maps',
+    # 'django_celery_beat',
+
+
+
 ]
 
 MIDDLEWARE = [
@@ -115,6 +120,26 @@ DATABASES = {
 
 # CELERY_BROKER_URL = os.environ['REDIS_URL']
 # CELERY_RESULT_BACKEND = os.environ['REDIS_URL']
+# REDIS related settings
+REDIS_HOST                  = 'localhost'
+REDIS_PORT                  = '6379'
+BROKER_URL                  = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+BROKER_TRANSPORT_OPTIONS    = {'visibility_timeout': 3600}
+CELERY_RESULT_BACKEND       = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Jakarta'
+CELERY_BEAT_SCHEDULE = {
+    'task-number-one': {
+        'task': 'api.tasks.kirim_channel',
+        'schedule': datetime.timedelta(seconds=10),
+
+    },
+}
 
 # DATABASES = {
 #     'default': {

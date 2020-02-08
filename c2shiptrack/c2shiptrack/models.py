@@ -256,6 +256,29 @@ class TacticalFigureList(models.Model):
         managed = False
         db_table = 'tactical_figure_list'
 
+    def to_json(self):
+        return {
+            'object_id' :self.object_id,
+            'object_type' :self.object_type,
+            'name' :self.name,
+            'environment' :self.environment,
+            'shape' :self.shape,
+            'displaying_popup_alert_status' :self.displaying_popup_alert_status,
+            'line_color' :self.line_color,
+            'fill_color' :self.fill_color,
+            'identity_list' :self.identity_list,
+            'warning_list' :self.warning_list,
+            'evaluation_type' :self.evaluation_type,
+            'visibility_type' :self.visibility_type,
+            'last_update_time' :self.last_update_time,
+            'network_track_number' :self.network_track_number,
+            'link_status_type' :self.link_status_type,
+            'is_editable' :self.is_editable,
+            'point_amplification_type' :self.point_amplification_type,
+            'point_keys' :self.point_keys,
+            'points' :self.points
+        }
+
 
 class TacticalFigures(models.Model):
     session = models.ForeignKey(Sessions, models.DO_NOTHING)
