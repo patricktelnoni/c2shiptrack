@@ -64,10 +64,17 @@ def area_alert():
     if 'aa_status' not in cache:
         for p in query:
             data = {
-                'session_id': p.id,
-                'ship_name': p.ship_name,
-                'last_update_time': str(p.last_update_time),
-                'visibility_type': p.is_visible,
+                'id' :p.id,
+                'object_type' :p.object_type,
+                'object_id' :p.object_id,
+                'warning_type' :p.warning_type,
+                'track_name' :p.track_name,
+                'last_update_time' :str(p.last_update_time),
+                'mmsi_number' :p.mmsi_number,
+                'ship_name' :p.ship_name,
+                'track_source_type' :p.track_source_type,
+                'is_visible' :p.is_visible,
+
             }
             serialized.append(data)
         # print(serialized)
@@ -88,10 +95,21 @@ def area_alert():
         for c in range(len(cache.get('aa'))):
             if cache.get('rp')[c]['session_id'] not in query[c].values():
                 data = {
-                    'session_id'        : cache.get('rp')[c]['object_id'],
-                    'nama'              : cache.get('rp')[c]['ship_name'],
-                    'last_update_time'  : str(cache.get('rp')[c]['last_update_time']),
-                    'visibility_type'   : cache.get('rp')[c]['is_visible'],
+                    # 'session_id'        : cache.get('rp')[c]['object_id'],
+                    # 'nama'              : cache.get('rp')[c]['ship_name'],
+                    # 'last_update_time'  : str(cache.get('rp')[c]['last_update_time']),
+                    # 'visibility_type'   : cache.get('rp')[c]['is_visible'],
+
+                    'id': cache.get('rp')[c].id,
+                    'object_type': cache.get('rp')[c].object_type,
+                    'object_id': cache.get('rp')[c].object_id,
+                    'warning_type': cache.get('rp')[c].warning_type,
+                    'track_name': cache.get('rp')[c].track_name,
+                    'last_update_time': str(cache.get('rp')[c].last_update_time),
+                    'mmsi_number': cache.get('rp')[c].mmsi_number,
+                    'ship_name': cache.get('rp')[c].ship_name,
+                    'track_source_type': cache.get('rp')[c].track_source_type,
+                    'is_visible': cache.get('rp')[c].is_visible,
                 }
                 deleted.append(data)
                 channel_layer = channels.layers.get_channel_layer()
@@ -112,10 +130,21 @@ def area_alert():
         for q in range(len(query)):
             if cached[q]['last_update_time'] != query[q].last_update_time:
                 data = {
-                    'session_id': query[q].object_id,
-                    'ship_name': query[q].ship_name,
-                    'last_update_time': str(query[q].last_update_time),
-                    'visibility_type': query[q].is_visible,
+                    # 'session_id': query[q].object_id,
+                    # 'ship_name': query[q].ship_name,
+                    # 'last_update_time': str(query[q].last_update_time),
+                    # 'visibility_type': query[q].is_visible,
+
+                'id' :query[q].id,
+                'object_type' :query[q].object_type,
+                'object_id' :query[q].object_id,
+                'warning_type' :query[q].warning_type,
+                'track_name' :query[q].track_name,
+                'last_update_time' :str(query[q].last_update_time),
+                'mmsi_number' :query[q].mmsi_number,
+                'ship_name' :query[q].ship_name,
+                'track_source_type' :query[q].track_source_type,
+                'is_visible' :query[q].is_visible,
                 }
                 # serialized.append(data)
                 cached[q]       = data
@@ -140,10 +169,18 @@ def reference_point():
     if 'rp_status' not in cache:
         for p in query:
             data = {
-                'session_id'            : p.object_id,
-                'nama'                  : p.name,
-                'last_update_time'      : str(p.last_update_time),
-                'visibility_type'       : p.visibility_type,
+                'object_type': p.object_type,
+                'object_id': p.object_id,
+                'name': p.name,
+                'latitude': p.latitude,
+                'longitude': p.longitude,
+                'altitude': p.altitude,
+                'visibility_type': p.visibility_type,
+                'point_amplification_type': p.point_amplification_type,
+                'is_editable': p.is_editable,
+                'network_track_number': p.network_track_number,
+                'link_status_type': p.link_status_type,
+                'last_update_time': str(p.last_update_time),
             }
             serialized.append(data)
         # print(serialized)
@@ -164,10 +201,18 @@ def reference_point():
         for c in range(len(cache.get('rp'))):
             if cache.get('rp')[c]['session_id'] not in query[c].items():
                 data = {
-                    'session_id': p.object_id,
-                    'nama': p.name,
-                    'last_update_time': str(p.last_update_time),
+                    'object_type': p.object_type,
+                    'object_id': p.object_id,
+                    'name': p.name,
+                    'latitude': p.latitude,
+                    'longitude': p.longitude,
+                    'altitude': p.altitude,
                     'visibility_type': p.visibility_type,
+                    'point_amplification_type': p.point_amplification_type,
+                    'is_editable': p.is_editable,
+                    'network_track_number': p.network_track_number,
+                    'link_status_type': p.link_status_type,
+                    'last_update_time': str(p.last_update_time),
                 }
                 deleted.append(data)
                 channel_layer = channels.layers.get_channel_layer()
@@ -185,10 +230,18 @@ def reference_point():
         for q in range(len(query)):
             if cached[q]['last_update_time'] != query[q].last_update_time :
                 data = {
-                    'session_id': query[q].object_id,
-                    'nama': query[q].name,
-                    'last_update_time': str(query[q].last_update_time),
-                    'visibility_type': query[q].visibility_type,
+                    'object_type': p.object_type,
+                    'object_id': p.object_id,
+                    'name': p.name,
+                    'latitude': p.latitude,
+                    'longitude': p.longitude,
+                    'altitude': p.altitude,
+                    'visibility_type': p.visibility_type,
+                    'point_amplification_type': p.point_amplification_type,
+                    'is_editable': p.is_editable,
+                    'network_track_number': p.network_track_number,
+                    'link_status_type': p.link_status_type,
+                    'last_update_time': str(p.last_update_time),
                 }
                 # serialized.append(data)
                 cached[q] = data
@@ -231,10 +284,26 @@ def tactical_list():
     if 'tl_status' not in cache:
         for p in query:
             data = {
-                'session_id': p.object_id,
-                'nama': p.name,
-                'last_update_time': str(p.last_update_time),
-                'visibility_type': p.visibility_type,
+                'object_id' :p.object_id,
+                'object_type' :p.object_type,
+                'name' :p.name,
+                'environment' :p.environment,
+                'shape' :p.shape,
+                'displaying_popup_alert_status' :p.displaying_popup_alert_status,
+                'line_color' :p.line_color,
+                'fill_color' :p.fill_color,
+                'identity_list' :p.identity_list,
+                'warning_list' :p.warning_list,
+                'evaluation_type' :p.evaluation_type,
+                'visibility_type' :p.visibility_type,
+                'last_update_time' :str(p.last_update_time),
+                'network_track_number' :p.network_track_number,
+                'link_status_type' :p.link_status_type,
+                'is_editable' :p.is_editable,
+                'point_amplification_type' :p.point_amplification_type,
+                'point_keys' :p.point_keys,
+                'points' :p.points
+
             }
             serialized.append(data)
         # print(serialized)
@@ -254,10 +323,25 @@ def tactical_list():
         for c in range(len(cache.get('tl'))):
             if cache.get('tl')[c]['session_id'] not in query[c].values():
                 data = {
-                    'session_id': p.object_id,
-                    'nama': p.name,
-                    'last_update_time': str(p.last_update_time),
-                    'visibility_type': p.visibility_type,
+                    'object_id': query[c].object_id,
+                    'object_type': query[c].object_type,
+                    'name': query[c].name,
+                    'environment': query[c].environment,
+                    'shape': query[c].shape,
+                    'displaying_popup_alert_status': query[c].displaying_popup_alert_status,
+                    'line_color': query[c].line_color,
+                    'fill_color': query[c].fill_color,
+                    'identity_list': query[c].identity_list,
+                    'warning_list': query[c].warning_list,
+                    'evaluation_type': query[c].evaluation_type,
+                    'visibility_type': query[c].visibility_type,
+                    'last_update_time': str(query[c].last_update_time),
+                    'network_track_number': query[c].network_track_number,
+                    'link_status_type': query[c].link_status_type,
+                    'is_editable': query[c].is_editable,
+                    'point_amplification_type': query[c].point_amplification_type,
+                    'point_keys': query[c].point_keys,
+                    'points': query[c].points
                 }
                 deleted.append(data)
                 channel_layer = channels.layers.get_channel_layer()
@@ -278,10 +362,30 @@ def tactical_list():
         for q in range(len(query)):
             if cached[q]['last_update_time'] != query[q].last_update_time:
                 data = {
-                    'session_id': query[q].object_id,
-                    'nama': query[q].name,
-                    'last_update_time': str(query[q].last_update_time),
+                    # 'session_id': query[q].object_id,
+                    # 'nama': query[q].name,
+                    # 'last_update_time': str(query[q].last_update_time),
+                    # 'visibility_type': query[q].visibility_type,
+
+                    'object_id': query[q].object_id,
+                    'object_type': query[q].object_type,
+                    'name': query[q].name,
+                    'environment': query[q].environment,
+                    'shape': query[q].shape,
+                    'displaying_popup_alert_status': query[q].displaying_popup_alert_status,
+                    'line_color': query[q].line_color,
+                    'fill_color': query[q].fill_color,
+                    'identity_list': query[q].identity_list,
+                    'warning_list': query[q].warning_list,
+                    'evaluation_type': query[q].evaluation_type,
                     'visibility_type': query[q].visibility_type,
+                    'last_update_time': str(query[q].last_update_time),
+                    'network_track_number': query[q].network_track_number,
+                    'link_status_type': query[q].link_status_type,
+                    'is_editable': query[q].is_editable,
+                    'point_amplification_type': query[q].point_amplification_type,
+                    'point_keys': query[q].point_keys,
+                    'points': query[q].points
                 }
                 # serialized.append(data)
                 cached[q] = data
