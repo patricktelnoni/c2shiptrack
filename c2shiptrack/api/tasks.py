@@ -201,18 +201,18 @@ def reference_point():
         for c in range(len(cache.get('rp'))):
             if cache.get('rp')[c]['session_id'] not in query[c].items():
                 data = {
-                    'object_type': p.object_type,
-                    'object_id': p.object_id,
-                    'name': p.name,
-                    'latitude': p.latitude,
-                    'longitude': p.longitude,
-                    'altitude': p.altitude,
-                    'visibility_type': p.visibility_type,
-                    'point_amplification_type': p.point_amplification_type,
-                    'is_editable': p.is_editable,
-                    'network_track_number': p.network_track_number,
-                    'link_status_type': p.link_status_type,
-                    'last_update_time': str(p.last_update_time),
+                    'object_type': query[c].object_type,
+                    'object_id': query[c].object_id,
+                    'name': query[c].name,
+                    'latitude': query[c].latitude,
+                    'longitude': query[c].longitude,
+                    'altitude': query[c].altitude,
+                    'visibility_type': query[c].visibility_type,
+                    'point_amplification_type': query[c].point_amplification_type,
+                    'is_editable': query[c].is_editable,
+                    'network_track_number': query[c].network_track_number,
+                    'link_status_type': query[c].link_status_type,
+                    'last_update_time': str(query[c].last_update_time),
                 }
                 deleted.append(data)
                 channel_layer = channels.layers.get_channel_layer()
@@ -230,18 +230,18 @@ def reference_point():
         for q in range(len(query)):
             if cached[q]['last_update_time'] != query[q].last_update_time :
                 data = {
-                    'object_type': p.object_type,
-                    'object_id': p.object_id,
-                    'name': p.name,
-                    'latitude': p.latitude,
-                    'longitude': p.longitude,
-                    'altitude': p.altitude,
-                    'visibility_type': p.visibility_type,
-                    'point_amplification_type': p.point_amplification_type,
-                    'is_editable': p.is_editable,
-                    'network_track_number': p.network_track_number,
-                    'link_status_type': p.link_status_type,
-                    'last_update_time': str(p.last_update_time),
+                    'object_type': query[q].object_type,
+                    'object_id': query[q].object_id,
+                    'name': query[q].name,
+                    'latitude': query[q].latitude,
+                    'longitude': query[q].longitude,
+                    'altitude': query[q].altitude,
+                    'visibility_type': query[q].visibility_type,
+                    'point_amplification_type': query[q].point_amplification_type,
+                    'is_editable': query[q].is_editable,
+                    'network_track_number': query[q].network_track_number,
+                    'link_status_type': query[q].link_status_type,
+                    'last_update_time': str(query[q].last_update_time),
                 }
                 # serialized.append(data)
                 cached[q] = data
