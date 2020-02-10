@@ -18,6 +18,7 @@ router.register(r'replay_system_track_processing', ReplaySystemTrackProcessingVi
 router.register(r'replay_track_general_setting', ReplayTrackGeneralSettingViewSet)
 router.register(r'sessions', SessionsViewSet)
 router.register(r'realtime_track', GetRealtimeTrackViewSet)
+router.register(r'replay_track', ReplayTrackViewSet)
 router.register(r'tactical_figure_list', TacticalFigureListViewSet)
 router.register(r'tactical_figures', TacticalFiguresViewSet)
 router.register(r'area_alert', AreaAlertViewSet)

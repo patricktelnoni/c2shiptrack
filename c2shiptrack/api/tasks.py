@@ -18,13 +18,25 @@ import numpy as np
 from datetime import timedelta
 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
+UPDATE_RATE = 10
 
 @shared_task
 def test(arg):
     print('world')
 
 # @periodic_task(run_every=timedelta(seconds=10))
-@periodic_task(run_every=timedelta(seconds=10))
+# @periodic_task(run_every=timedelta(seconds=10))
+# @periodic_task(run_every=timedelta(seconds=UPDATE_RATE))
+@task
+def periodic_task():
+    sql = "select id, extract(epoch from (end_time::timestamp - start_time::timestamp)) as durasi " \
+            " from sessions " \
+            "WHERE end time IS NOT null"
+    query = Sessions.objects.raw(sql)
+
+
+
+@task
 def tes_kirim():
     channel_layer   = channels.layers.get_channel_layer()
     try:
@@ -44,7 +56,9 @@ def tes_kirim():
 
     return None
 
-@periodic_task(run_every=timedelta(seconds=300))
+
+# DAta Redundant, check visibility type
+@periodic_task(run_every=timedelta(seconds=10))
 def area_alert():
     sql = "SELECT s.id, aa.* " \
             "FROM area_alerts aa " \
@@ -74,7 +88,6 @@ def area_alert():
                 'ship_name' :p.ship_name,
                 'track_source_type' :p.track_source_type,
                 'is_visible' :p.is_visible,
-
             }
             serialized.append(data)
         # print(serialized)
@@ -100,16 +113,16 @@ def area_alert():
                     # 'last_update_time'  : str(cache.get('rp')[c]['last_update_time']),
                     # 'visibility_type'   : cache.get('rp')[c]['is_visible'],
 
-                    'id': cache.get('rp')[c].id,
-                    'object_type': cache.get('rp')[c].object_type,
-                    'object_id': cache.get('rp')[c].object_id,
-                    'warning_type': cache.get('rp')[c].warning_type,
-                    'track_name': cache.get('rp')[c].track_name,
-                    'last_update_time': str(cache.get('rp')[c].last_update_time),
-                    'mmsi_number': cache.get('rp')[c].mmsi_number,
-                    'ship_name': cache.get('rp')[c].ship_name,
-                    'track_source_type': cache.get('rp')[c].track_source_type,
-                    'is_visible': cache.get('rp')[c].is_visible,
+                    'id'                : cache.get('rp')[c].id,
+                    'object_type'       : cache.get('rp')[c].object_type,
+                    'object_id'         : cache.get('rp')[c].object_id,
+                    'warning_type'      : cache.get('rp')[c].warning_type,
+                    'track_name'        : cache.get('rp')[c].track_name,
+                    'last_update_time'  : str(cache.get('rp')[c].last_update_time),
+                    'mmsi_number'       : cache.get('rp')[c].mmsi_number,
+                    'ship_name'         : cache.get('rp')[c].ship_name,
+                    'track_source_type' : cache.get('rp')[c].track_source_type,
+                    'is_visible'        : cache.get('rp')[c].is_visible,
                 }
                 deleted.append(data)
                 channel_layer = channels.layers.get_channel_layer()
@@ -135,16 +148,16 @@ def area_alert():
                     # 'last_update_time': str(query[q].last_update_time),
                     # 'visibility_type': query[q].is_visible,
 
-                'id' :query[q].id,
-                'object_type' :query[q].object_type,
-                'object_id' :query[q].object_id,
-                'warning_type' :query[q].warning_type,
-                'track_name' :query[q].track_name,
-                'last_update_time' :str(query[q].last_update_time),
-                'mmsi_number' :query[q].mmsi_number,
-                'ship_name' :query[q].ship_name,
-                'track_source_type' :query[q].track_source_type,
-                'is_visible' :query[q].is_visible,
+                'id'                : query[q].id,
+                'object_type'       : query[q].object_type,
+                'object_id'         : query[q].object_id,
+                'warning_type'      : query[q].warning_type,
+                'track_name'        : query[q].track_name,
+                'last_update_time'  : str(query[q].last_update_time),
+                'mmsi_number'       : query[q].mmsi_number,
+                'ship_name'         : query[q].ship_name,
+                'track_source_type' : query[q].track_source_type,
+                'is_visible'        : query[q].is_visible,
                 }
                 # serialized.append(data)
                 cached[q]       = data
@@ -160,8 +173,10 @@ def area_alert():
         cache.set('aa', serialized, timeout=CACHE_TTL)
     return None
 
+# DAta Tidak Redundant, tidak check visibility type, tapi cek dari selisih data redis & Database
 # @periodic_task(run_every=crontab(minute=0))
-@periodic_task(run_every=timedelta(seconds=300))
+
+@periodic_task(run_every=timedelta(seconds=10))
 def reference_point():
     serialized = []
     # query = ReferencePoints.objects.latest('last_update_time')[0]
@@ -276,6 +291,7 @@ def reference_point():
 
     return None
 
+# Data Tidak Redundant, tidak check visibility type, tapi cek dari selisih data redis & Database
 # @periodic_task(run_every=crontab(minute="*"))
 @periodic_task(run_every=timedelta(seconds=300))
 def tactical_list():

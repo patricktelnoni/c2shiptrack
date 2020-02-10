@@ -18,6 +18,20 @@
         '/ws/maps/' + roomName + '/', 'echo-protocol'
         );
 
+    var referencePointSocket = new WebSocket(
+        'ws://' + window.location.host +
+        '/ws/maps/reference_point/', 'echo-protocol'
+        );
+
+    var areaAlertSocket = new WebSocket(
+        'ws://' + window.location.host +
+        '/ws/maps/area_alert/', 'echo-protocol'
+        );
+    var tacticalFigureSocket = new WebSocket(
+        'ws://' + window.location.host +
+        '/ws/maps/tactical_figure/', 'echo-protocol'
+        );
+
     chatSocket.onmessage = function(e) {
         var data = JSON.parse(e.data);
         var message = data['message'];

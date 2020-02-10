@@ -9,8 +9,61 @@ from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 import channels
+from datetime import timedelta, datetime
+import datetime as dt
 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
+UPDATE_RATE = 10
+
+class ReplayTrackViewSet(viewsets.ViewSet):
+    queryset = Sessions.objects.raw("select id, extract(epoch from (end_time::timestamp - start_time::timestamp)) as durasi " \
+          " from sessions " \
+          "WHERE end_time IS NOT null")
+    serializers = SessionsSerializer
+    def list(self, request):
+        sql = "select id, start_time, end_time, extract(epoch from (end_time::timestamp - start_time::timestamp)) as durasi " \
+              " from sessions " \
+              "WHERE end_time IS NOT null"
+        query = Sessions.objects.raw(sql)
+        track = []
+        for data in query:
+            panjang_replay = data.durasi / UPDATE_RATE
+            track_list = [i for i in range(int(panjang_replay))]
+            track_list = dict.fromkeys(track_list, "")
+            result={
+                    'session_id'        : data.id,
+                    'durasi_session'    : data.durasi,
+                    'track_play'        : track_list
+            }
+            start_time = (datetime.strptime(str(data.start_time), '%Y-%m-%d %H:%M:%S.%f'))
+            end_time = (datetime.strptime(str(data.end_time), '%Y-%m-%d %H:%M:%S.%f'))
+
+            for t in range(len(track_list)):
+                print(t)
+                if t == 0:
+                    tmp_time = (datetime.strptime(str(data.start_time), '%Y-%m-%d %H:%M:%S.%f'))
+                    tmp_time += dt.timedelta(seconds=UPDATE_RATE)
+                    end_time = tmp_time
+                else:
+                    start_time += dt.timedelta(seconds=UPDATE_RATE)
+                    end_time += dt.timedelta(seconds=UPDATE_RATE)
+
+                query_tf = "SELECT s.id, tf.* " \
+                               "FROM tactical_figures tf " \
+                                "JOIN sessions s on tf.session_id = s.id " \
+                               "JOIN(" \
+                               "     SELECT object_id,max(last_update_time) last_update_time " \
+                               "     FROM tactical_figures " \
+                               "     WHERE session_id = " + str(data.id) + " AND last_update_time > '"+str(start_time)+"' AND last_update_time < '"+str(end_time)+"' " \
+                                "     GROUP BY object_id) mx " \
+                                "ON tf.object_id=mx.object_id and tf.last_update_time=mx.last_update_time " \
+                                "WHERE tf.session_id = '"+str(data.id)+"' AND tf.last_update_time > '"+str(start_time)+"' AND tf.last_update_time < '"+str(end_time)+"' " \
+                                "ORDER BY tf.object_id"
+                TacticalFigures.objects.raw(query_tf)
+
+                print(str(start_time) + " sampai dengan " + str(end_time))
+            track.append(result)
+        return Response(track, status=status.HTTP_201_CREATED)
 
 class ReplaySystemTrackProcessingViewSet(viewsets.ModelViewSet):
     # queryset = ReplaySystemTrackProcessing.objects.all()
