@@ -21,33 +21,41 @@ class ReplayTrackViewSet(viewsets.ViewSet):
           "WHERE end_time IS NOT null")
     serializers = SessionsSerializer
     def list(self, request):
-        sql = "select id, start_time, end_time, extract(epoch from (end_time::timestamp - start_time::timestamp)) as durasi " \
+        '''Get data session yang sudah selesai'''
+        sql = "select id, to_char (start_time::timestamp, 'YYYY-MM-DD HH24:MI:SS') start_time, " \
+              " to_char (end_time::timestamp, 'YYYY-MM-DD HH24:MI:SS') end_time, " \
+              "extract(epoch from (end_time::timestamp - start_time::timestamp)) as durasi " \
               " from sessions " \
               "WHERE end_time IS NOT null"
         query = Sessions.objects.raw(sql)
         track = []
         for data in query:
+            '''Buat panjang durasi dibagi dengan UPDATE_RATE. Buat list sesuai dengan panjang_replay'''
             panjang_replay = data.durasi / UPDATE_RATE
             track_list = [i for i in range(int(panjang_replay))]
             track_list = dict.fromkeys(track_list, "")
             result={
                     'session_id'        : data.id,
+                    'update_rate'       : UPDATE_RATE,
                     'durasi_session'    : data.durasi,
                     'track_play'        : track_list
             }
-            start_time = (datetime.strptime(str(data.start_time), '%Y-%m-%d %H:%M:%S.%f'))
-            end_time = (datetime.strptime(str(data.end_time), '%Y-%m-%d %H:%M:%S.%f'))
-
-            for t in range(len(track_list)):
-                print(t)
+            start_time = (datetime.strptime(str(data.start_time), '%Y-%m-%d %H:%M:%S'))
+            end_time = (datetime.strptime(str(data.end_time), '%Y-%m-%d %H:%M:%S'))
+            '''Looping sebanyak panjang replay'''
+            for t in range(len(track_list)+1):
+                '''Buat start_time dan end_time untuk setiap segmen replay.
+                    Segmen durasi adalah satuan  replay track, 
+                    contoh 2020-01-10 14:45:31 sampai dengan 2020-01-10 14:45:41
+                    disebut sebagai 1 segmen durasi'''
                 if t == 0:
-                    tmp_time = (datetime.strptime(str(data.start_time), '%Y-%m-%d %H:%M:%S.%f'))
+                    tmp_time = (datetime.strptime(str(data.start_time), '%Y-%m-%d %H:%M:%S'))
                     tmp_time += dt.timedelta(seconds=UPDATE_RATE)
                     end_time = tmp_time
                 else:
                     start_time += dt.timedelta(seconds=UPDATE_RATE)
                     end_time += dt.timedelta(seconds=UPDATE_RATE)
-
+                '''Jalankan query untuk setiap tabel per setiap segmen durasi'''
                 query_tf = "SELECT s.id, tf.* " \
                                "FROM tactical_figures tf " \
                                 "JOIN sessions s on tf.session_id = s.id " \
@@ -59,8 +67,41 @@ class ReplayTrackViewSet(viewsets.ViewSet):
                                 "ON tf.object_id=mx.object_id and tf.last_update_time=mx.last_update_time " \
                                 "WHERE tf.session_id = '"+str(data.id)+"' AND tf.last_update_time > '"+str(start_time)+"' AND tf.last_update_time < '"+str(end_time)+"' " \
                                 "ORDER BY tf.object_id"
-                TacticalFigures.objects.raw(query_tf)
+                query_rp = "SELECT s.id, rrp.* " \
+                           "FROM replay_reference_point rrp " \
+                           "JOIN sessions s on s.id = rrp.session_id " \
+                           "JOIN (" \
+                           "    SELECT object_id,max(last_update_time) last_update_time " \
+                           "    FROM replay_reference_point " \
+                           "    WHERE session_id = " + str(data.id) + " AND last_update_time > '"+str(start_time)+"' AND last_update_time < '"+str(end_time)+"' " \
+                           "    GROUP BY object_id" \
+                           ") mx ON rrp.object_id=mx.object_id and rrp.last_update_time=mx.last_update_time" \
+                           " WHERE rrp.session_id = '"+str(data.id)+"' AND rrp.last_update_time > '"+str(start_time)+"' AND rrp.last_update_time < '"+str(end_time)+"' " \
+                           "ORDER BY rrp.object_id"
+                query_aa = "SELECT s.id,  aa.* " \
+                           "FROM area_alerts aa " \
+                           "JOIN sessions s on s.id = aa.session_id " \
+                           "JOIN (" \
+                           "    SELECT object_id,max(last_update_time) last_update_time" \
+                           "    FROM area_alerts " \
+                           "    WHERE session_id = " + str(data.id) + " AND last_update_time > '"+str(start_time)+"' AND last_update_time < '"+str(end_time)+"' " \
+                           "    GROUP BY object_id" \
+                           ") mx ON aa.object_id=mx.object_id and aa.last_update_time=mx.last_update_time " \
+                           "WHERE aa.session_id = " + str(data.id) + " AND aa.last_update_time > '"+str(start_time)+"' AND aa.last_update_time < '"+str(end_time)+"'" \
+                            " ORDER BY aa.object_id"
+                track_data = []
+                for tf in TacticalFigures.objects.raw(query_tf):
+                    tf_status = 'F'+str(tf.object_id)+'R' if tf.is_visible == 'REMOVE' else 'F'+str(tf.object_id)
+                    track_data.append(tf_status)
 
+                for rp in ReplayReferencePoint.objects.raw(query_rp):
+                    rp_status = 'P' + str(rp.object_id)+'R' if rp.visibility_type == 'REMOVE' else 'P'+str(rp.object_id)
+                    track_data.append(rp_status)
+                for aa in AreaAlerts.objects.raw(query_aa):
+                    aa_status = 'A' + str(aa.object_id)+'R' if aa.is_visible == 'REMOVE' else 'A'+str(aa.object_id)
+                    track_data.append(aa_status)
+
+                result['track_play'][t] = track_data
                 print(str(start_time) + " sampai dengan " + str(end_time))
             track.append(result)
         return Response(track, status=status.HTTP_201_CREATED)

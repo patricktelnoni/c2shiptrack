@@ -3,14 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9ea789e0-ac36-42a9-b82c-e46c77eef580" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/router.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/router.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/tasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/tasks.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/viewsets.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/viewsets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/c2shiptrack/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/c2shiptrack/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/celerybeat-schedule" beforeDir="false" afterPath="$PROJECT_DIR$/celerybeat-schedule" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/celerybeat.pid" beforeDir="false" afterPath="$PROJECT_DIR$/celerybeat.pid" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/maps/consumers.py" beforeDir="false" afterPath="$PROJECT_DIR$/maps/consumers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/maps/templates/maps/room.html" beforeDir="false" afterPath="$PROJECT_DIR$/maps/templates/maps/room.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +35,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="full.screen.before.presentation.mode" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
@@ -186,7 +180,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581161006528</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Make replay data with correct timestamp">
+      <created>1581352363201</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1581352363201</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -203,7 +204,8 @@
     <MESSAGE value="This thime able to display data after porting from tes_replay.py" />
     <MESSAGE value="Set all field response from according to each respective table." />
     <MESSAGE value="Fix all field response 2.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix all field response 2.0" />
+    <MESSAGE value="Make replay data with correct timestamp" />
+    <option name="LAST_COMMIT_MESSAGE" value="Make replay data with correct timestamp" />
   </component>
   <component name="WindowStateProjectService">
     <state x="387" y="125" width="624" height="551" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1579489600946">
@@ -214,10 +216,10 @@
       <screen x="42" y="27" width="1318" height="741" />
     </state>
     <state x="434" y="146" width="524" height="509" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/42.27.1318.741@42.27.1318.741" timestamp="1580548356521" />
-    <state x="309" y="27" width="789" height="741" key="CommitChangelistDialog2" timestamp="1581161006298">
-      <screen x="42" y="27" width="1324" height="741" />
+    <state x="308" y="27" width="789" height="741" key="CommitChangelistDialog2" timestamp="1581431480337">
+      <screen x="42" y="27" width="1318" height="741" />
     </state>
-    <state x="308" y="27" width="789" height="741" key="CommitChangelistDialog2/42.27.1318.741@42.27.1318.741" timestamp="1580640228547" />
+    <state x="308" y="27" width="789" height="741" key="CommitChangelistDialog2/42.27.1318.741@42.27.1318.741" timestamp="1581431480337" />
     <state x="309" y="27" width="779" height="741" key="CommitChangelistDialog2/42.27.1324.741@42.27.1324.741" timestamp="1581161006298" />
     <state x="475" y="141" width="447" height="520" key="FileChooserDialogImpl" timestamp="1579663478672">
       <screen x="42" y="27" width="1324" height="741" />
@@ -243,10 +245,10 @@
       <screen x="42" y="27" width="1324" height="741" />
     </state>
     <state x="193" y="31" width="1022" height="737" key="SettingsEditor/42.27.1324.741@42.27.1324.741" timestamp="1579489595665" />
-    <state x="299" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1581161016042">
-      <screen x="42" y="27" width="1324" height="741" />
+    <state x="298" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1581352369333">
+      <screen x="42" y="27" width="1318" height="741" />
     </state>
-    <state x="298" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2/42.27.1318.741@42.27.1318.741" timestamp="1580640233763" />
+    <state x="298" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2/42.27.1318.741@42.27.1318.741" timestamp="1581352369333" />
     <state x="299" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2/42.27.1324.741@42.27.1324.741" timestamp="1581161016042" />
     <state x="359" y="225" key="com.intellij.ide.util.TipDialog" timestamp="1580340326343">
       <screen x="42" y="27" width="1318" height="741" />
