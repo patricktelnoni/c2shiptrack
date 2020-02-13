@@ -15,6 +15,10 @@ import datetime as dt
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 UPDATE_RATE = 10
 
+
+
+
+
 class ReplayTrackViewSet(viewsets.ViewSet):
     queryset = Sessions.objects.raw("select id, extract(epoch from (end_time::timestamp - start_time::timestamp)) as durasi " \
           " from sessions " \
@@ -37,17 +41,23 @@ class ReplayTrackViewSet(viewsets.ViewSet):
             result={
                     'session_id'        : data.id,
                     'update_rate'       : UPDATE_RATE,
+                    'start_time'        : str(data.start_time),
+                    'end_time'          : str(data.end_time),
                     'durasi_session'    : data.durasi,
                     'track_play'        : track_list
             }
             start_time = (datetime.strptime(str(data.start_time), '%Y-%m-%d %H:%M:%S'))
             end_time = (datetime.strptime(str(data.end_time), '%Y-%m-%d %H:%M:%S'))
             '''Looping sebanyak panjang replay'''
+
             for t in range(len(track_list)+1):
                 '''Buat start_time dan end_time untuk setiap segmen replay.
                     Segmen durasi adalah satuan  replay track, 
                     contoh 2020-01-10 14:45:31 sampai dengan 2020-01-10 14:45:41
                     disebut sebagai 1 segmen durasi'''
+                track_data = []
+                # print(t)
+                # print(str(start_time) + " sampai dengan " + str(end_time))
                 if t == 0:
                     tmp_time = (datetime.strptime(str(data.start_time), '%Y-%m-%d %H:%M:%S'))
                     tmp_time += dt.timedelta(seconds=UPDATE_RATE)
@@ -67,6 +77,10 @@ class ReplayTrackViewSet(viewsets.ViewSet):
                                 "ON tf.object_id=mx.object_id and tf.last_update_time=mx.last_update_time " \
                                 "WHERE tf.session_id = '"+str(data.id)+"' AND tf.last_update_time > '"+str(start_time)+"' AND tf.last_update_time < '"+str(end_time)+"' " \
                                 "ORDER BY tf.object_id"
+                for tf in TacticalFigures.objects.raw(query_tf):
+                    tf_status = 'F'+str(tf.object_id)+'R' if tf.is_visible == 'REMOVE' else 'F'+str(tf.object_id)
+                    track_data.append(tf_status)
+
                 query_rp = "SELECT s.id, rrp.* " \
                            "FROM replay_reference_point rrp " \
                            "JOIN sessions s on s.id = rrp.session_id " \
@@ -78,31 +92,30 @@ class ReplayTrackViewSet(viewsets.ViewSet):
                            ") mx ON rrp.object_id=mx.object_id and rrp.last_update_time=mx.last_update_time" \
                            " WHERE rrp.session_id = '"+str(data.id)+"' AND rrp.last_update_time > '"+str(start_time)+"' AND rrp.last_update_time < '"+str(end_time)+"' " \
                            "ORDER BY rrp.object_id"
-                query_aa = "SELECT s.id,  aa.* " \
-                           "FROM area_alerts aa " \
-                           "JOIN sessions s on s.id = aa.session_id " \
-                           "JOIN (" \
-                           "    SELECT object_id,max(last_update_time) last_update_time" \
-                           "    FROM area_alerts " \
-                           "    WHERE session_id = " + str(data.id) + " AND last_update_time > '"+str(start_time)+"' AND last_update_time < '"+str(end_time)+"' " \
-                           "    GROUP BY object_id" \
-                           ") mx ON aa.object_id=mx.object_id and aa.last_update_time=mx.last_update_time " \
-                           "WHERE aa.session_id = " + str(data.id) + " AND aa.last_update_time > '"+str(start_time)+"' AND aa.last_update_time < '"+str(end_time)+"'" \
-                            " ORDER BY aa.object_id"
-                track_data = []
-                for tf in TacticalFigures.objects.raw(query_tf):
-                    tf_status = 'F'+str(tf.object_id)+'R' if tf.is_visible == 'REMOVE' else 'F'+str(tf.object_id)
-                    track_data.append(tf_status)
-
                 for rp in ReplayReferencePoint.objects.raw(query_rp):
                     rp_status = 'P' + str(rp.object_id)+'R' if rp.visibility_type == 'REMOVE' else 'P'+str(rp.object_id)
                     track_data.append(rp_status)
-                for aa in AreaAlerts.objects.raw(query_aa):
-                    aa_status = 'A' + str(aa.object_id)+'R' if aa.is_visible == 'REMOVE' else 'A'+str(aa.object_id)
+
+                query_aa = "SELECT aa.session_id as id, aa.* " \
+                            " FROM area_alerts aa " \
+                            " JOIN (" \
+                            "    SELECT object_id,max(last_update_time) last_update_time " \
+                            "    FROM area_alerts " \
+                            "    WHERE session_id = '" + str(data.id) + "' AND last_update_time > '"+str(start_time)+"' AND last_update_time < '"+str(end_time)+"' " \
+                            "    GROUP BY object_id " \
+                            ") mx ON aa.object_id=mx.object_id and aa.last_update_time=mx.last_update_time " \
+                            " WHERE aa.session_id = '" + str(data.id) + "' " \
+                             " AND aa.last_update_time > '"+str(start_time)+"' AND aa.last_update_time < '"+str(end_time)+"' " \
+                             " ORDER BY aa.object_id"
+                # query_aa = "SELECT aa.session_id as id, aa.*  FROM area_alerts aa  JOIN (    SELECT object_id,max(last_update_time) last_update_time     FROM area_alerts     WHERE session_id = '1' AND last_update_time > '2020-01-10 14:14:31' AND last_update_time < '2020-01-10 14:14:41'     GROUP BY object_id ) mx ON aa.object_id=mx.object_id and aa.last_update_time=mx.last_update_time  WHERE aa.session_id = '1'  AND aa.last_update_time > '2020-01-10 14:14:31' AND aa.last_update_time < '2020-01-10 14:14:41'  ORDER BY aa.object_id"
+                print(len(ReplayReferencePoint.objects.raw(query_aa)))
+                for a in AreaAlerts.objects.raw(query_aa):
+                    aa_status = 'AA' + str(a.object_id)+'R' if a.is_visible == 'REMOVE' else 'AA'+str(a.object_id)
                     track_data.append(aa_status)
 
                 result['track_play'][t] = track_data
-                print(str(start_time) + " sampai dengan " + str(end_time))
+
+
             track.append(result)
         return Response(track, status=status.HTTP_201_CREATED)
 

@@ -4,6 +4,7 @@
     <list default="true" id="9ea789e0-ac36-42a9-b82c-e46c77eef580" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/viewsets.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/viewsets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/c2shiptrack/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/c2shiptrack/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,7 +188,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581352363201</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Replay Track 3 tabel">
+      <created>1581431481040</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1581431481040</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -205,7 +213,8 @@
     <MESSAGE value="Set all field response from according to each respective table." />
     <MESSAGE value="Fix all field response 2.0" />
     <MESSAGE value="Make replay data with correct timestamp" />
-    <option name="LAST_COMMIT_MESSAGE" value="Make replay data with correct timestamp" />
+    <MESSAGE value="Replay Track 3 tabel" />
+    <option name="LAST_COMMIT_MESSAGE" value="Replay Track 3 tabel" />
   </component>
   <component name="WindowStateProjectService">
     <state x="387" y="125" width="624" height="551" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1579489600946">
@@ -216,10 +225,11 @@
       <screen x="42" y="27" width="1318" height="741" />
     </state>
     <state x="434" y="146" width="524" height="509" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/42.27.1318.741@42.27.1318.741" timestamp="1580548356521" />
-    <state x="308" y="27" width="789" height="741" key="CommitChangelistDialog2" timestamp="1581431480337">
-      <screen x="42" y="27" width="1318" height="741" />
+    <state x="309" y="27" width="789" height="741" key="CommitChangelistDialog2" timestamp="1581570499293">
+      <screen x="42" y="27" width="1324" height="741" />
     </state>
     <state x="308" y="27" width="789" height="741" key="CommitChangelistDialog2/42.27.1318.741@42.27.1318.741" timestamp="1581431480337" />
+    <state x="309" y="27" key="CommitChangelistDialog2/42.27.1324.741/1366.0.1920.1080@42.27.1324.741" timestamp="1581570499293" />
     <state x="309" y="27" width="779" height="741" key="CommitChangelistDialog2/42.27.1324.741@42.27.1324.741" timestamp="1581161006298" />
     <state x="475" y="141" width="447" height="520" key="FileChooserDialogImpl" timestamp="1579663478672">
       <screen x="42" y="27" width="1324" height="741" />
@@ -245,10 +255,10 @@
       <screen x="42" y="27" width="1324" height="741" />
     </state>
     <state x="193" y="31" width="1022" height="737" key="SettingsEditor/42.27.1324.741@42.27.1324.741" timestamp="1579489595665" />
-    <state x="298" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1581352369333">
+    <state x="298" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1581431487828">
       <screen x="42" y="27" width="1318" height="741" />
     </state>
-    <state x="298" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2/42.27.1318.741@42.27.1318.741" timestamp="1581352369333" />
+    <state x="298" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2/42.27.1318.741@42.27.1318.741" timestamp="1581431487828" />
     <state x="299" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2/42.27.1324.741@42.27.1324.741" timestamp="1581161016042" />
     <state x="359" y="225" key="com.intellij.ide.util.TipDialog" timestamp="1580340326343">
       <screen x="42" y="27" width="1318" height="741" />

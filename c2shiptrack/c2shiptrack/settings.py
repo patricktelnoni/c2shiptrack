@@ -26,7 +26,7 @@ SECRET_KEY = 'ri6-2ug$_i5^prt1oqjo9!cnsr%wq+akso19m!fdkk*ld=j76r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 ASGI_APPLICATION = "c2shiptrack.routing.application"
 CHANNEL_LAYERS = {
