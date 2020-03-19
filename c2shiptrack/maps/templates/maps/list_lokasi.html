@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<div id="app" xmlns:v-on="http://www.w3.org/1999/xhtml">
+  <h1>Daftar Lokasi</h1>
+  <table>
+      <thead>
+        <tr>
+            <th scope="col">Longitude</th>
+            <th scope="col">Latitude</th>
+            <th scope="col">Lokasi</th>
+            <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="currency in lokasi">
+          <td>${ currency.latitude }</td>
+          <td>${ currency.longitude } </td>
+          <td>${ currency.lokasi } </td>
+          <td>
+              <button class="btn btn-info" v-on:click="getLokasi(currency.id)">Edit</button>
+              <button class="btn btn-danger" v-on:click="deleteLokasi(currency.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+  </table>
+
+    <div class="modal fade" id="editLokasiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">EDIT ARTICLE</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form v-on:submit.prevent="updateLokasi()">
+                <div class="modal-body">
+                    <div class="form-group">
+                      <label for="latitude">Latitude</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="latitude"
+                        placeholder="Enter Latitude"
+                        v-model="currentLokasi.longitude"
+                        required="required" >
+                    </div>
+                    <div class="form-group">
+                      <label for="longitude">Latitude</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="longitude"
+                        placeholder="Enter Article Heading"
+                        v-model="currentLokasi.latitude"
+                        required="required" >
+                    </div>
+
+                    <div class="form-group">
+                      <label for="lokasi">Lokasi</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="lokasi"
+                        placeholder="Enter Article Heading"
+                        v-model="currentLokasi.lokasi"
+                        required="required" >
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary m-progress" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+                </form>
+              </div>
+            </div>
+            <div class="loading" v-if="loading===true">Loading&#8230;</div>
+          </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+    new Vue({
+      el: '#app',
+      delimiters: ['${','}'],
+      data () {
+        return {
+           lokasi: null,
+           currentLokasi: [],
+          loading: true,
+          errored: false
+        }
+      },
+      filters: {
+        currencydecimal (value) {
+          return value.toFixed(2)
+        }
+      },
+      mounted () {
+        axios
+          .get('http://127.0.0.1:8000/api/lokasi')
+          .then(response => {
+            this.lokasi = response.data
+          })
+          .catch(error => {
+            console.log(error)
+            this.errored = true
+          })
+          .finally(() => this.loading = false)
+      },
+      methods:{
+       getAllLokasi: function() {
+          let api_url = '/api/lokasi/';
+          this.loading = true;
+          axios.get(api_url)
+              .then((response) => {
+                this.lokasi = response.data;
+                this.loading = false;
+              })
+              .catch((err) => {
+                this.loading = false;
+                console.log(err);
+              })
+        },
+          getLokasi: function(id) {
+              this.loading = true;
+              axios.get('http://127.0.0.1:8000/api/lokasi/'+id+'/')
+                  .then((response) => {
+                    this.currentLokasi = response.data;
+                    $("#editLokasiModal").modal('show');
+                    console.log(this.currentLokasi);
+                    this.loading = false;
+                  })
+                  .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                  })
+          },
+          updateLokasi: function() {
+                this.loading = true;
+                axios.put('/api/lokasi/'+this.currentLokasi.id+'/', this.currentLokasi)
+                .then((response) => {
+                    this.loading = false;
+                    this.currentArticle = response.data;
+                    this.getAllLokasi();
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                })
+        },
+        deleteLokasi: function(id) {
+          this.loading = true;
+          axios.delete('/api/lokasi/'+id+'/')
+              .then((response) => {
+                this.loading = false;
+                this.getAllLokasi();
+              })
+              .catch((err) => {
+                this.loading = false;
+                console.log(err);
+              })
+        },
+      }
+    })
+</script>
+
+
+
+
+
+{% endblock content %}

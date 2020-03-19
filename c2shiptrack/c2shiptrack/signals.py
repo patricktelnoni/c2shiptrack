@@ -1,36 +1,17 @@
-from c2shiptrack.models import Sessions
-from django.db.models.signals import pre_save
+from django.contrib.auth import user_logged_in, user_logged_out
 from django.dispatch import receiver
+from c2shiptrack.models import LoggedInUser
 
 
+@receiver(user_logged_in)
+def on_user_logged_in(sender, request, **kwargs):
+    print("Some one is logging in")
+    LoggedInUser.objects.get_or_create(user=kwargs.get('user'))
 
 
+@receiver(user_logged_out)
+def on_user_logged_out(sender, **kwargs):
+    print("Some one is logging out")
+    LoggedInUser.objects.filter(user=kwargs.get('user')).delete()
 
-def send_message(event):
-    '''
-    Call back function to send message to the browser
-    '''
-
-
-    # message = event['text']
-    # channel_layer = channels.layers.get_channel_layer()
-    # # Send message to WebSocket
-    # async_to_sync(channel_layer.send)(text_data=json.dumps(
-    #     message
-    # ))
-
-@receiver(pre_save, sender=Sessions)
-def save_profile(sender, instance, **kwargs):
-    print("Session inserted")
-    # channel_layer = channels.layers.get_channel_layer()
-    # async_to_sync(channel_layer.group_send)(
-    #     'chat_queen',
-    #     {
-    #         "type": "chat_message",
-    #         "message": "Session inserted"
-    #     }
-    # )
-    # async_to_sync(channel_layer.group_send)(
-    #     {"type": "chat_message", "message": "data"}
-    # )
 

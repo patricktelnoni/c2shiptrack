@@ -28,15 +28,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-ASGI_APPLICATION = "c2shiptrack.routing.application"
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('localhost', 6379)],
-        },
-    },
-}
+# ASGI_APPLICATION = ""
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('localhost', 6379)],
+#         },
+#     },
+# }
 
 CACHES = {
     'default': {
@@ -47,8 +47,10 @@ CACHES = {
         }
     }
 }
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 SESSION_CACHE_ALIAS = "default"
+SESSION_SAVE_EVERY_REQUEST = True
+# SESSION_COOKIE_AGE = 3600
 
 # Application definition
 
@@ -62,16 +64,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
-    'c2shiptrack',
+    # 'c2shiptrack',
     'api',
     'rest_framework',
-    'channels',
     'maps',
+    'preventconcurrentlogins',
+    'c2shiptrack.apps.ActivityAppConfig'
     # 'django_celery_beat',
-
-
-
 ]
+
+# AUTH_USER_MODEL = 'c2shiptrack.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -81,6 +83,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware',
+    # 'c2shiptrack.middleware.OneSessionPerUserMiddleware',
 ]
 
 ROOT_URLCONF = 'c2shiptrack.urls'
@@ -103,14 +107,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'c2shiptrack.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE'    : 'django.db.backends.postgresql_psycopg2',
-         'NAME'      : 'shiptrack',
+         'NAME'      : 'shiptrack_kurdi',
          'USER'      : 'postgres',
          'PASSWORD'  : '1234',
          'HOST'      : 'localhost',
@@ -121,25 +124,25 @@ DATABASES = {
 # CELERY_BROKER_URL = os.environ['REDIS_URL']
 # CELERY_RESULT_BACKEND = os.environ['REDIS_URL']
 # REDIS related settings
-REDIS_HOST                  = 'localhost'
-REDIS_PORT                  = '6379'
-BROKER_URL                  = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
-BROKER_TRANSPORT_OPTIONS    = {'visibility_timeout': 3600}
-CELERY_RESULT_BACKEND       = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
-
-CELERY_BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Asia/Jakarta'
-CELERY_BEAT_SCHEDULE = {
-    'task-number-one': {
-        'task': 'api.tasks.kirim_channel',
-        'schedule': datetime.timedelta(seconds=10),
-
-    },
-}
+# REDIS_HOST                  = 'localhost'
+# REDIS_PORT                  = '6379'
+# BROKER_URL                  = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+# BROKER_TRANSPORT_OPTIONS    = {'visibility_timeout': 3600}
+# CELERY_RESULT_BACKEND       = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+#
+# CELERY_BROKER_URL = 'redis://localhost:6379'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_TIMEZONE = 'Asia/Jakarta'
+# CELERY_BEAT_SCHEDULE = {
+#     'task-number-one': {
+#         'task': 'api.tasks.kirim_channel',
+#         'schedule': datetime.timedelta(seconds=10),
+#
+#     },
+# }
 
 # DATABASES = {
 #     'default': {
@@ -168,6 +171,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
 
 
 # Internationalization

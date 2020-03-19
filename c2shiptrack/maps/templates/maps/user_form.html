@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <div id="content-container" class="container p-none">
+        <div class="lgn-container col-lg-8">
+            <form id="login-form" method="post" 
+                  action="{% url 'create_staff_via_api' %}">
+                {% csrf_token %}
+                <table>
+                    {{ user_form.as_table }}
+                    {{ lokasi_form.as_table }}
+                </table>
+
+        <button type="submit" class="save btn btn-default">Save</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

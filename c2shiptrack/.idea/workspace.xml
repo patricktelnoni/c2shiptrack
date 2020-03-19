@@ -2,20 +2,64 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9ea789e0-ac36-42a9-b82c-e46c77eef580" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/c2shiptrack/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/c2shiptrack/middleware.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/c2shiptrack/migrations/0002_loggedinuser.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/c2shiptrack/migrations/0003_loggedinuser_status.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/c2shiptrack/migrations/0004_auto_20200223_1308.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/c2shiptrack/migrations/0005_auto_20200223_1310.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/c2shiptrack/migrations/0006_auto_20200223_1323.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/c2shiptrack/migrations/0007_auto_20200223_1333.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/c2shiptrack/migrations/0008_auto_20200223_1341.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/c2shiptrack/migrations/0009_auto_20200223_1345.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/c2shiptrack/migrations/0010_auto_20200223_1348.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/c2shiptrack/migrations/0011_auto_20200223_1405.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/c2shiptrack/migrations/0012_auto_20200223_1630.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/c2shiptrack/migrations/0013_lokasi_user.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/c2shiptrack/migrations/0014_auto_20200227_1053.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/c2shiptrack/migrations/0015_auto_20200227_1100.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/c2shiptrack/migrations/0016_auto_20200227_1145.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/c2shiptrack/templates/base.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/c2shiptrack/templates/form_login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hasil_inspect.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/maps/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/maps/templates/maps/base.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/maps/templates/maps/dashboard.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/maps/templates/maps/form_login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/maps/templates/maps/list_lokasi.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/maps/templates/maps/lokasi_form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/maps/templates/maps/session_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/maps/templates/maps/user_form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/maps/templates/maps/user_list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/router.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/router.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/serializer.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/serializer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/viewsets.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/viewsets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/c2shiptrack/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/c2shiptrack/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/c2shiptrack/asgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/c2shiptrack/asgi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/c2shiptrack/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/c2shiptrack/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/c2shiptrack/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/c2shiptrack/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/c2shiptrack/routing.py" beforeDir="false" afterPath="$PROJECT_DIR$/c2shiptrack/routing.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/c2shiptrack/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/c2shiptrack/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/c2shiptrack/signals.py" beforeDir="false" afterPath="$PROJECT_DIR$/c2shiptrack/signals.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/c2shiptrack/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/c2shiptrack/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/maps/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/maps/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/maps/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/maps/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FavoritesManager">
+    <favorites_list name="c2shiptrack" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -37,12 +81,18 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/c2shiptrack/templates" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/c2shiptrack/templates" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/c2shiptrack" />
+      <recent name="$PROJECT_DIR$/maps/templates/maps" />
+      <recent name="$PROJECT_DIR$/maps/templates" />
+      <recent name="$PROJECT_DIR$/c2shiptrack/templates" />
       <recent name="$PROJECT_DIR$/maps" />
     </key>
   </component>
@@ -195,7 +245,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581431481040</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Replay Track 3 tabel">
+      <created>1581570500153</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1581570500153</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -217,23 +274,24 @@
     <option name="LAST_COMMIT_MESSAGE" value="Replay Track 3 tabel" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="387" y="125" width="624" height="551" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1579489600946">
+    <state x="387" y="125" width="624" height="551" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1582165976547">
       <screen x="42" y="27" width="1324" height="741" />
     </state>
-    <state x="387" y="125" width="624" height="551" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/42.27.1324.741@42.27.1324.741" timestamp="1579489600946" />
-    <state x="434" y="146" width="524" height="509" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1580548356521">
+    <state x="387" y="125" width="624" height="551" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/42.27.1324.741@42.27.1324.741" timestamp="1582165976547" />
+    <state x="434" y="146" width="524" height="509" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1584120104293">
       <screen x="42" y="27" width="1318" height="741" />
     </state>
-    <state x="434" y="146" width="524" height="509" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/42.27.1318.741@42.27.1318.741" timestamp="1580548356521" />
+    <state x="434" y="146" width="524" height="509" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/42.27.1318.741@42.27.1318.741" timestamp="1584120104293" />
     <state x="309" y="27" width="789" height="741" key="CommitChangelistDialog2" timestamp="1581570499293">
       <screen x="42" y="27" width="1324" height="741" />
     </state>
     <state x="308" y="27" width="789" height="741" key="CommitChangelistDialog2/42.27.1318.741@42.27.1318.741" timestamp="1581431480337" />
     <state x="309" y="27" key="CommitChangelistDialog2/42.27.1324.741/1366.0.1920.1080@42.27.1324.741" timestamp="1581570499293" />
     <state x="309" y="27" width="779" height="741" key="CommitChangelistDialog2/42.27.1324.741@42.27.1324.741" timestamp="1581161006298" />
-    <state x="475" y="141" width="447" height="520" key="FileChooserDialogImpl" timestamp="1579663478672">
-      <screen x="42" y="27" width="1324" height="741" />
+    <state x="473" y="141" width="447" height="520" key="FileChooserDialogImpl" timestamp="1581869231035">
+      <screen x="42" y="27" width="1318" height="741" />
     </state>
+    <state x="473" y="141" key="FileChooserDialogImpl/42.27.1318.741@42.27.1318.741" timestamp="1581869231035" />
     <state x="475" y="141" width="447" height="520" key="FileChooserDialogImpl/42.27.1324.741@42.27.1324.741" timestamp="1579663478672" />
     <state width="1301" height="172" key="GridCell.Tab.0.bottom" timestamp="1580963066082">
       <screen x="42" y="27" width="1324" height="741" />
@@ -251,14 +309,16 @@
       <screen x="42" y="27" width="1324" height="741" />
     </state>
     <state width="1301" height="172" key="GridCell.Tab.0.right/42.27.1324.741@42.27.1324.741" timestamp="1580963066082" />
-    <state x="193" y="31" width="1022" height="737" key="SettingsEditor" timestamp="1579489595665">
-      <screen x="42" y="27" width="1324" height="741" />
+    <state x="1366" y="32" width="1920" height="1048" key="SettingsEditor" timestamp="1582181919194">
+      <screen x="42" y="27" width="3244" height="1053" />
     </state>
     <state x="193" y="31" width="1022" height="737" key="SettingsEditor/42.27.1324.741@42.27.1324.741" timestamp="1579489595665" />
-    <state x="298" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1581431487828">
-      <screen x="42" y="27" width="1318" height="741" />
+    <state x="1366" y="32" width="1920" height="1048" key="SettingsEditor/42.27.3244.1053@42.27.3244.1053" timestamp="1582181919194" />
+    <state x="299" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1581570510939">
+      <screen x="42" y="27" width="1324" height="741" />
     </state>
     <state x="298" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2/42.27.1318.741@42.27.1318.741" timestamp="1581431487828" />
+    <state x="299" y="133" key="Vcs.Push.Dialog.v2/42.27.1324.741/1366.0.1920.1080@42.27.1324.741" timestamp="1581570510939" />
     <state x="299" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2/42.27.1324.741@42.27.1324.741" timestamp="1581161016042" />
     <state x="359" y="225" key="com.intellij.ide.util.TipDialog" timestamp="1580340326343">
       <screen x="42" y="27" width="1318" height="741" />
@@ -270,9 +330,9 @@
       <screen x="42" y="27" width="1324" height="741" />
     </state>
     <state x="42" y="27" width="866" height="741" key="find.popup/42.27.1324.741@42.27.1324.741" timestamp="1581072625079" />
-    <state x="364" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1580832128629">
+    <state x="364" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1581872626810">
       <screen x="42" y="27" width="1318" height="741" />
     </state>
-    <state x="364" y="89" width="672" height="678" key="search.everywhere.popup/42.27.1318.741@42.27.1318.741" timestamp="1580832128629" />
+    <state x="364" y="89" width="672" height="678" key="search.everywhere.popup/42.27.1318.741@42.27.1318.741" timestamp="1581872626810" />
   </component>
 </project>

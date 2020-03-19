@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <div id="content-container" class="container p-none">
+        <div class="lgn-container col-lg-8">
+          {% if user.is_authenticated %}
+                <p>Welcome, {{ user.get_username }}. Thanks for logging in. <a href="/maps/logout">logout</a> </p>
+            {% else %}
+                <p>Welcome, new user. Please log in.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}

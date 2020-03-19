@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+{% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<div id="app" xmlns:v-on="http://www.w3.org/1999/xhtml">
+  <h1>Daftar Lokasi</h1>
+  <table>
+      <thead>
+        <tr>
+            <th scope="col">Longitude</th>
+            <th scope="col">Latitude</th>
+            <th scope="col">Lokasi</th>
+            <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="currency in user">
+          <td>${ currency.nama }</td>
+          <td>${ currency.user.username } </td>
+          <td>${ currency.user.password } </td>
+          <td>${ currency.lokasi.lokasi } </td>
+          <td>
+              <button class="btn btn-info" v-on:click="getUser(currency.user_id)">Edit</button>
+              <button class="btn btn-danger" v-on:click="delete(currency.user_id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+  </table>
+
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">EDIT ARTICLE</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form v-on:submit.prevent="update()">
+                <div class="modal-body">
+                    <div class="form-group">
+                      <label for="nama">Nama</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="nama"
+                        placeholder="Enter Nama"
+                        v-model="currentUser.nama"
+                        required="required" >
+                    </div>
+                    <div class="form-group">
+                      <label for="username">Username</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="username"
+                        placeholder="Enter username"
+                        v-model="username"
+                        required="required" >
+                    </div>
+
+                    <div class="form-group">
+                      <label for="password">Password</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="password"
+                        placeholder="Enter passsword"
+                        v-model="password"
+                        required="required" >
+                    </div>
+
+                    <div class="form-group">
+                      <label for="lokasi">Lokasi</label>
+
+                        <select name="lokasi" id="lokasi" v-model="selectedLokasi" @change="onChange($event)">
+                            <option v-for="l in listLokasi" :value="l.id">${l.lokasi}</option>
+                        </select>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary m-progress" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+                </form>
+              </div>
+            </div>
+            <div class="loading" v-if="loading===true">Loading&#8230;</div>
+          </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
+<script type="text/javascript">
+
+    Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
+    axios.defaults.xsrfCookieName = 'csrftoken'
+    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
+    new Vue({
+      el: '#app',
+      delimiters: ['${','}'],
+      data () {
+        return {
+           user: null,
+           currentUser: [],
+           listLokasi:[],
+           username:"",
+           password:"",
+           selectedLokasi:"",
+           selectedLokasiId:"",
+          loading: true,
+          errored: false
+        }
+      },
+      filters: {
+        currencydecimal (value) {
+          return value.toFixed(2)
+        }
+      },
+      mounted () {
+        axios
+          .get('http://127.0.0.1:8000/api/list_user')
+          .then(response => {
+            this.user = response.data
+          })
+          .catch(error => {
+            console.log(error)
+            this.errored = true
+          })
+          .finally(() => this.loading = false)
+          axios.get('http://127.0.0.1:8000/api/lokasi/')
+                  .then((response) => {
+                    this.listLokasi = response.data;
+                    console.log(this.listLokasi);
+                    this.loading = false;
+                  })
+                  .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                  })
+      },
+      methods:{
+      onChange(event) {
+            console.log(event.target.value)
+            this.selectedLokasiId = event.target.value
+        },
+       getAll: function() {
+          let api_url = '/api/list_user/';
+          this.loading = true;
+          axios.get(api_url)
+              .then((response) => {
+                this.user = response.data;
+                this.loading = false;
+              })
+              .catch((err) => {
+                this.loading = false;
+                console.log(err);
+              })
+        },
+          getUser: function(id) {
+              this.loading = true;
+              axios.get('http://127.0.0.1:8000/api/list_user/'+id+'/')
+                  .then((response) => {
+                    this.currentUser = response.data[0];
+                    this.username = response.data[0].user.username;
+                    this.password = response.data[0].user.password;
+                    this.selectedLokasi = response.data[0].lokasi.id;
+                    console.log(this.selectedLokasi);
+                    $("#editModal").modal('show');
+                    this.loading = false;
+                  })
+                  .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                  })
+
+          },
+          update: function() {
+                this.loading = true;
+                this.currentUser.user.username = this.username;
+                this.currentUser.user.password = this.password;
+                this.currentUser.lokasi_id = this.selectedLokasiId;
+
+                axios.put('/api/update_user/'+this.currentUser.user_id+'/', this.currentUser)
+                .then((response) => {
+                    this.loading = false;
+                    this.currentUser = response.data;
+                    this.getAll();
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                })
+        },
+        delete: function(id) {
+          this.loading = true;
+          axios.delete('/api/list_user/'+id+'/')
+              .then((response) => {
+                this.loading = false;
+                this.getAll();
+              })
+              .catch((err) => {
+                this.loading = false;
+                console.log(err);
+              })
+        },
+      }
+    })
+
+</script>
+
+
+
+
+
+{% endblock content %}
